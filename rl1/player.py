@@ -296,8 +296,8 @@ class PlayerControllerRandom(PlayerController):
 
                 # ADD YOUR CODE SNIPPET BETWEEN EX. 1.2
                 # Chose an action from all possible actions and add to the counter of actions per state
-                action = None
-                action = 1  # has to be here (or deleted) and not after we choose our action
+                #action = None
+                #action = 1  # has to be here (or deleted) and not after we choose our action
                 action = random.choice(possible_actions)  # random action choose
                 Q[s_current][action] += 1  # value updated
                 # ADD YOUR CODE SNIPPET BETWEEN EX. 1.2

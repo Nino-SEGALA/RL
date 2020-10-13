@@ -157,14 +157,14 @@ class PlayerControllerRL(PlayerController, FishesModelling):
         self.allowed_movements()
         # ADD YOUR CODE SNIPPET BETWEEN EX. 2.1
         # Initialize a numpy array with ns state rows and na state columns with float values from 0.0 to 1.0.
-        Q = None
+        Q = np.zeros((ns, na))  # 2.1 each case contains the number of time we choose the action a in the state s
         # ADD YOUR CODE SNIPPET BETWEEN EX. 2.1
 
         for s in range(ns):
             list_pos = self.allowed_moves[s]
             for i in range(4):
                 if i not in list_pos:
-                    Q[s, i] = np.nan
+                    Q[s, i] = np.nan  # if the move is not allowed, we put a 'nan'
 
         Q_old = Q.copy()
 
@@ -183,7 +183,7 @@ class PlayerControllerRL(PlayerController, FishesModelling):
         # Change the while loop to incorporate a threshold limit, to stop training when the mean difference
         # in the Q table is lower than the threshold
         while episode <= self.episode_max:
-            # ADD YOUR CODE SNIPPET BETWEENEX. 2.3
+            # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
 
             s_current = init_pos
             R_total = 0
@@ -194,7 +194,9 @@ class PlayerControllerRL(PlayerController, FishesModelling):
 
                 # ADD YOUR CODE SNIPPET BETWEEN EX 2.1 and 2.2
                 # Chose an action from all possible actions
-                action = None
+                #action = None
+                action = random.choice(list_pos)  # random action choose
+                Q[s_current][action] += 1  # value updated
                 # ADD YOUR CODE SNIPPET BETWEEN EX 2.1 and 2.2
 
                 # ADD YOUR CODE SNIPPET BETWEEN EX 5
