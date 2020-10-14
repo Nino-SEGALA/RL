@@ -195,8 +195,11 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 # ADD YOUR CODE SNIPPET BETWEEN EX 2.1 and 2.2
                 # Chose an action from all possible actions
                 #action = None
-                action = random.choice(list_pos)  # random action choose
-                Q[s_current][action] += 1  # value updated
+                #action = random.choice(list_pos)  # random action choose
+                action = np.nanargmax(Q[s_current])  # nanargmax to avoid returning an impossible move (nan)
+
+                # random_agent
+                #Q[s_current][action] += 1  # value updated
                 # ADD YOUR CODE SNIPPET BETWEEN EX 2.1 and 2.2
 
                 # ADD YOUR CODE SNIPPET BETWEEN EX 5
@@ -218,6 +221,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
 
                 # ADD YOUR CODE SNIPPET BETWEEN EX. 2.2
                 # Implement the Bellman Update equation to update Q
+                # q-learning : Q(S, A) ← Q(S, A) + α[R + γ maxa Q(S', a) − Q(S, A)]
+                Q[s_current][action] += self.alpha * (R + self.gamma * np.nanmax(Q[s_next]) - Q[s_current][action])  # nanmax to avoid impossible moves
                 # ADD YOUR CODE SNIPPET BETWEEN EX. 2.2
 
                 s_current = s_next
