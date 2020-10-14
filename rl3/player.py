@@ -100,10 +100,10 @@ def epsilon_greedy(Q,
     if eps_type == 'constant':
         epsilon = epsilon_final
         # ADD YOUR CODE SNIPPET BETWEEN EX 3.1
-        # Implemenmt the epsilon-greedy algorithm for a constant epsilon value
+        # Implement the epsilon-greedy algorithm for a constant epsilon value
         # Use epsilon and all input arguments of epsilon_greedy you see fit
         # It is recommended you use the np.random module
-        action = None
+        #action = None
         if np.random.random() < epsilon:
             action = random.choice(all_actions)  # random action choose
         else:
@@ -111,13 +111,18 @@ def epsilon_greedy(Q,
         # ADD YOUR CODE SNIPPET BETWEEN EX 3.1
 
     elif eps_type == 'linear':
-        # ADD YOUR CODE SNIPPET BETWEENEX  3.2
-        # Implemenmt the epsilon-greedy algorithm for a linear epsilon value
+        # ADD YOUR CODE SNIPPET BETWEEN EX  3.2
+        # Implement the epsilon-greedy algorithm for a linear epsilon value
         # Use epsilon and all input arguments of epsilon_greedy you see fit
         # use the ScheduleLinear class
         # It is recommended you use the np.random module
-        action = None
-        # ADD YOUR CODE SNIPPET BETWEENEX  3.2
+        #action = None
+        epsilon = ScheduleLinear(anneal_timesteps, epsilon_final, epsilon_initial).value(current_total_steps)
+        if np.random.random() < epsilon:
+            action = random.choice(all_actions)  # random action choose
+        else:
+            action = np.nanargmax(Q[state])  # nanargmax to avoid returning an impossible move (nan)
+        # ADD YOUR CODE SNIPPET BETWEEN EX  3.2
 
     else:
         raise "Epsilon greedy type unknown"
@@ -204,7 +209,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 #action = None
                 #action = random.choice(list_pos)  # random action choose
                 #action = np.nanargmax(Q[s_current])  # nanargmax to avoid returning an impossible move (nan)
-                action = epsilon_greedy(Q, s_current, list_pos, steps)
+                #action = epsilon_greedy(Q, s_current, list_pos, steps)  # 3.1
+                action = epsilon_greedy(Q, s_current, list_pos, steps, eps_type='linear')  # 3.2
 
                 # random_agent
                 #Q[s_current][action] += 1  # value updated
@@ -372,5 +378,7 @@ class ScheduleLinear(object):
     def value(self, t):
         # ADD YOUR CODE SNIPPET BETWEEN EX 3.2
         # Return the annealed linear value
-        return self.initial_p
+        #return self.initial_p
+        epsilon = self.initial_p + (self.final_p - self.initial_p) * (t / self.schedule_timesteps)  # linear epsilon
+        return epsilon
         # ADD YOUR CODE SNIPPET BETWEEN EX 3.2
