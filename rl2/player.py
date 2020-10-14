@@ -5,6 +5,7 @@ import numpy as np
 from agent import Fish
 from communicator import Communicator
 from shared import SettingLoader
+import math
 
 
 class FishesModelling:
@@ -182,7 +183,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
         # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
         # Change the while loop to incorporate a threshold limit, to stop training when the mean difference
         # in the Q table is lower than the threshold
-        while episode <= self.episode_max:
+        error = np.infty  # initialisation on the error
+        while (episode <= self.episode_max) and (error > self.threshold):  # 2.3 convergence criteria
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
 
             s_current = init_pos
@@ -232,6 +234,14 @@ class PlayerControllerRL(PlayerController, FishesModelling):
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
             # Compute the absolute value of the mean between the Q and Q-old
             diff = 100
+            error = 0
+            for qs, qs_old in zip(Q, Q_old):
+                for q, q_old in zip(qs, qs_old):
+                    if not math.isnan(q) and not math.isnan(q_old):
+                        error += abs(q - q_old)
+            if error < self.threshold:
+                #print("convergence criteria, episode : ", episode, "error : ", error)
+                continue
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
             Q_old[:] = Q
             print(
