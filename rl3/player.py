@@ -87,13 +87,13 @@ class PlayerControllerHuman(PlayerController):
                 return
 
 
-# remove epsilon_greedy from PlayerControllerHuman
+# remove epsilon_greedy from PlayerControllerHuman  #epsilon_final=0.2
 def epsilon_greedy(Q,
                    state,
                    all_actions,
                    current_total_steps=0,
                    epsilon_initial=1,
-                   epsilon_final=0.2,
+                   epsilon_final=0.01,
                    anneal_timesteps=10000,
                    eps_type="constant"):
 
@@ -104,8 +104,10 @@ def epsilon_greedy(Q,
         # Use epsilon and all input arguments of epsilon_greedy you see fit
         # It is recommended you use the np.random module
         #action = None
+        # exploration
         if np.random.random() < epsilon:
             action = random.choice(all_actions)  # random action choose
+        # exploitation
         else:
             action = np.nanargmax(Q[state])  # nanargmax to avoid returning an impossible move (nan)
         # ADD YOUR CODE SNIPPET BETWEEN EX 3.1
@@ -210,7 +212,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 #action = random.choice(list_pos)  # random action choose
                 #action = np.nanargmax(Q[s_current])  # nanargmax to avoid returning an impossible move (nan)
                 #action = epsilon_greedy(Q, s_current, list_pos, steps)  # 3.1
-                action = epsilon_greedy(Q, s_current, list_pos, steps, eps_type='linear')  # 3.2
+                action = epsilon_greedy(Q, s_current, list_pos, current_total_steps, self.epsilon_initial, self.epsilon_final
+                                        , self.annealing_timesteps, eps_type='linear')  # 3.2
 
                 # random_agent
                 #Q[s_current][action] += 1  # value updated
@@ -251,9 +254,9 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 for q, q_old in zip(qs, qs_old):
                     if not math.isnan(q) and not math.isnan(q_old):
                         error += abs(q - q_old)
-            if error < self.threshold:
+            #if error < self.threshold:
                 #print("convergence criteria, episode : ", episode, "error : ", error)
-                continue
+                #continue
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
             Q_old[:] = Q
             print(
