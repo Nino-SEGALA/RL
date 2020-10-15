@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # rewards: [golden_fish, jellyfish_1, jellyfish_2, ... , step]
-rewards = [-10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10]
+#rewards = [-10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10]
+rewards = [20, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -1]  # taking shortest path to catch king fish
 
 # Q learning learning rate
-alpha = 0.7
+alpha = .1  #0.7
 
 # Q learning discount rate
 gamma = 0.9
@@ -12,7 +13,7 @@ gamma = 0.9
 epsilon_initial = 1
 
 # Epsilon final
-epsilon_final = 1
+epsilon_final = 0.2  #1
 
 # Annealing timesteps
 annealing_timesteps = 1000

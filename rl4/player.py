@@ -212,7 +212,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 #action = random.choice(list_pos)  # random action choose
                 #action = np.nanargmax(Q[s_current])  # nanargmax to avoid returning an impossible move (nan)
                 #action = epsilon_greedy(Q, s_current, list_pos, steps)  # 3.1
-                action = epsilon_greedy(Q, s_current, list_pos, steps, eps_type='linear')  # 3.2
+                action = epsilon_greedy(Q, s_current, list_pos, current_total_steps, self.epsilon_initial,
+                                        self.epsilon_final, self.annealing_timesteps, eps_type='linear')  # 3.2
 
                 # random_agent
                 #Q[s_current][action] += 1  # value updated
@@ -253,9 +254,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 for q, q_old in zip(qs, qs_old):
                     if not math.isnan(q) and not math.isnan(q_old):
                         error += abs(q - q_old)
-            if error < self.threshold:
-                #print("convergence criteria, episode : ", episode, "error : ", error)
-                continue
+            #if error < self.threshold:
+                #print("convergence criteria, episode : ", episode, ", error : ", error)
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
             Q_old[:] = Q
             print(
