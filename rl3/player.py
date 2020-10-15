@@ -254,9 +254,8 @@ class PlayerControllerRL(PlayerController, FishesModelling):
                 for q, q_old in zip(qs, qs_old):
                     if not math.isnan(q) and not math.isnan(q_old):
                         error += abs(q - q_old)
-            #if error < self.threshold:
-                #print("convergence criteria, episode : ", episode, "error : ", error)
-                #continue
+            if error < self.threshold:
+                print("convergence criteria, episode : ", episode, "error : ", error)
             # ADD YOUR CODE SNIPPET BETWEEN EX. 2.3
             Q_old[:] = Q
             print(
