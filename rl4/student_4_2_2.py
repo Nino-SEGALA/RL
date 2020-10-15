@@ -4,7 +4,7 @@
 rewards = [20, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -10, -1]  # taking shortest path to catch king fish
 
 # Q learning learning rate
-alpha = .1  #0.7
+alpha = 0.1  #0.7
 
 # Q learning discount rate
 gamma = 0.9

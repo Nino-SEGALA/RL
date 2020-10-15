@@ -6,8 +6,6 @@ from agent import Fish
 from communicator import Communicator
 from shared import SettingLoader
 import math
-import student_4_2_1 as std1
-import student_4_2_2 as std2
 
 
 class FishesModelling:
