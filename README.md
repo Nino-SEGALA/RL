@@ -1,6 +1,6 @@
 # RL
 
-A project in 5 parts to learn about --Reinforcement Learning__  
+A project in 5 parts to learn about __Reinforcement Learning__  
 * Random agent
 * Q-learning
 * Epsilon-greedy algorithm
